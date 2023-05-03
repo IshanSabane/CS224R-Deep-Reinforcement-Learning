@@ -281,7 +281,7 @@ class PixelACAgent:
         self.actor_opt.zero_grad()
         self.encoder_opt.zero_grad()
 
-        loss = -actor_out.log_prob(action)
+        loss = -actor_out.log_prob(action).sum()
         print(loss, loss.shape)
 
 
