@@ -259,9 +259,9 @@ class PixelACAgent:
         batch = next(replay_iter)
         obs, action, _, _, _ = utils.to_torch(batch, self.device)
         ### YOUR CODE HERE ###
-        print(obs.shape, action.shape)
+        # print(obs.shape, action.shape)
         # Augment the observation using the encoder.
-        # ob_aug = self.aug(obs)
+        ob_aug = self.aug(obs)
 
         # Pass it to the encoder to reduce its dimension space
         f_theta = self.encoder(obs)
