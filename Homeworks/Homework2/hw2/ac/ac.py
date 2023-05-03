@@ -203,10 +203,14 @@ class PixelACAgent:
         
         y_target = reward + discount* torch.minimum(*random.sample(target_output,2))
 
+        print('y_target is ', y_target)
+
+
         # Part(d)
         output = self.critic(enc_obs, action)  
-        loss = torch.Tensor(sum([(x-y_target.detach())**2 for x in output]).float()
-)
+        loss = torch.Tensor(sum([(x - y_target.detach())**2 for x in output]).float())
+
+        print(loss, loss.shape)       
         # Part(e)
         loss.backward()
         self.encoder_opt.step()
@@ -225,6 +229,7 @@ class PixelACAgent:
 
         actor_loss.backward()
         self.actor_opt.step()
+        
         metrics['actor_loss'] = actor_loss
         metrics['critic_loss']= loss
         #####################
@@ -257,6 +262,7 @@ class PixelACAgent:
         
         metrics = dict()
 
+
         batch = next(replay_iter)
         obs, action, _, _, _ = utils.to_torch(batch, self.device)
         ### YOUR CODE HERE ###
@@ -272,9 +278,15 @@ class PixelACAgent:
 
         # Take the negative of the log probability of the given action from 
         # the replay buffer
+        self.actor_opt.zero_grad()
+        self.encoder_opt.zero_grad()
+
         loss = -actor_out.log_prob(action)
-
-
+        
+        loss.backward()
+        
+        self.actor_opt.step()
+        self.encoder_opt.step()
         metrics['loss'] = loss
         #####################
         return metrics
