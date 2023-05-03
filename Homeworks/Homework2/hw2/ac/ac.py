@@ -212,7 +212,7 @@ class PixelACAgent:
         # print("first Loss")
         # print(output.shape, y_target.detach().expand_as(output).shape)
         
-        loss = torch.square(output - y_target.detach().expand_as(output)).sum()
+        loss = torch.square(output - y_target.detach()).sum()
 
 
         self.encoder_opt.zero_grad()
