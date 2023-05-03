@@ -244,5 +244,8 @@ class PixelACAgent:
         actor_out = self.actor(f_theta)
 
 
+        loss = 
+
+
         #####################
         return metrics
