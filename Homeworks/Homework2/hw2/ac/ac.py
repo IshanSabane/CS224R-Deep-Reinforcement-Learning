@@ -203,14 +203,14 @@ class PixelACAgent:
         
         y_target = reward + discount* torch.minimum(*random.sample(target_output,2))
 
-        print('y_target is ', y_target)
+        # print('y_target is ', y_target)
 
 
         # Part(d)
         output = self.critic(enc_obs, action)  
-        loss = torch.Tensor(sum([(x - y_target.detach())**2 for x in output])).float()
+        loss = torch.Tensor(sum([(x - y_target.detach())**2 for x in output])).float().mean()
 
-        print(loss, loss.shape)       
+        # print(loss, loss.shape)       
         # Part(e)
         loss.backward()
         self.encoder_opt.step()
@@ -225,7 +225,7 @@ class PixelACAgent:
         sampled_action = self.actor(enc_obs.detach()).sample()
         
         actor_targets =(self.critic(enc_obs.detach(), sampled_action))
-        actor_loss = torch.Tensor(-(1/len(actor_targets))* sum(actor_targets)).float()
+        actor_loss = torch.Tensor(-(1/len(actor_targets))* sum(actor_targets)).float().mean()
 
         actor_loss.backward()
         self.actor_opt.step()
