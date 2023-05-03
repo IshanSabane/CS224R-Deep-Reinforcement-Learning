@@ -192,8 +192,8 @@ class PixelACAgent:
 
         ### YOUR CODE HERE ###
         # Part(a)
-        enc_obs = self.encoder(self.aug(obs))
-        enc_next_obs = self.encoder(self.aug(next_obs))
+        enc_obs = self.encoder(self.aug(obs.float()))
+        enc_next_obs = self.encoder(self.aug(next_obs.float()))
 
         # Part(b)
         next_action = self.actor(enc_obs).sample()
@@ -261,10 +261,10 @@ class PixelACAgent:
         ### YOUR CODE HERE ###
         # print(obs.shape, action.shape)
         # Augment the observation using the encoder.
-        ob_aug = self.aug(obs)
+        ob_aug = self.aug(obs.float())
 
         # Pass it to the encoder to reduce its dimension space
-        f_theta = self.encoder(obs)
+        f_theta = self.encoder(ob_aug)
         
         # Actor output: A distribution of the action space 
         actor_out = self.actor(f_theta) 
