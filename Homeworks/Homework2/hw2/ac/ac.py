@@ -205,7 +205,7 @@ class PixelACAgent:
 
         # Part(d)
         output = self.critic(enc_obs, action)  
-        loss = sum([(x-y_target.detach())**2 for x in output])
+        loss = torch.sum(torch.Tensor([(x-y_target.detach())**2 for x in output]))
 
         # Part(e)
         loss.backward()
@@ -220,8 +220,8 @@ class PixelACAgent:
 
         sampled_action = self.actor(enc_obs.detach()).sample()
         
-        actor_targets = self.critic(enc_obs.detach(), sampled_action)
-        actor_loss = -(1/len(actor_targets))* sum(actor_targets)
+        actor_targets =torch.Tensor(self.critic(enc_obs.detach(), sampled_action))
+        actor_loss = -(1/len(actor_targets))* torch.sum(actor_targets)
 
         actor_loss.backward()
         self.actor_opt.step()
