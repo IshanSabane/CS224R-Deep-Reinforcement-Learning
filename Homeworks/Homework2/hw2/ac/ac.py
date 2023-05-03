@@ -224,7 +224,7 @@ class PixelACAgent:
             utils.soft_update_params(self.critic.critics[i], self.critic_target.critics[i], self.critic_target_tau)
 
         # Final Part 
-        self.actor_opt.zer_grad()
+        self.actor_opt.zero_grad()
 
         sampled_action = self.actor(enc_obs.detach()).sample()
         
