@@ -196,7 +196,7 @@ class PixelACAgent:
         enc_next_obs = self.encoder(self.aug(next_obs.float()))
 
         # Part(b)
-        next_action = self.actor(enc_obs).sample()
+        next_action = self.actor(enc_next_obs).sample()
 
         # Part(c)
         target_output = self.critic_target(enc_next_obs,next_action) # All crictic outputs in a list
