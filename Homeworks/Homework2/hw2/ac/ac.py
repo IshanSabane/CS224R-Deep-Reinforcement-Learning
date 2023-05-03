@@ -229,7 +229,7 @@ class PixelACAgent:
 
         actor_loss.backward()
         self.actor_opt.step()
-        
+
         metrics['actor_loss'] = actor_loss
         metrics['critic_loss']= loss
         #####################
@@ -282,7 +282,10 @@ class PixelACAgent:
         self.encoder_opt.zero_grad()
 
         loss = -actor_out.log_prob(action)
-        
+        print(loss, loss.shape)
+
+
+
         loss.backward()
         
         self.actor_opt.step()
