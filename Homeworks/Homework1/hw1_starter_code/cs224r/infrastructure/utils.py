@@ -22,7 +22,7 @@ def sample_trajectory(env, policy, max_path_length, render=False):
     # initialize env for the beginning of a new rollout
     ob = env.reset() # DONE # HINT: should be the output of resetting the env
 
-    render = True
+    # render = True
     # init vars
     obs, acs, rewards, next_obs, terminals, image_obs = [], [], [], [], [], []
     steps = 0

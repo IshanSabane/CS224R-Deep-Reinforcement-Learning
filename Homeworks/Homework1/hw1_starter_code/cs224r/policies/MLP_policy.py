@@ -118,6 +118,8 @@ class MLPPolicySL(BasePolicy, nn.Module, metaclass=abc.ABCMeta):
         
         # DONE return the action that the policy prescribes
         action = self(observation)
+        # dist = distributions.Normal(action, torch.exp(self.logstd)) 
+
         dist = distributions.multivariate_normal.MultivariateNormal(action, torch.diag(torch.exp(self.logstd))) 
         action = dist.sample()
 
@@ -168,7 +170,9 @@ class MLPPolicySL(BasePolicy, nn.Module, metaclass=abc.ABCMeta):
         self.optimizer.zero_grad()
         
         pred_action = self(torch.from_numpy(observations).to(ptu.device))    
-        dist = distributions.multivariate_normal.MultivariateNormal(pred_action, torch.diag(torch.exp(self.logstd))) 
+        # dist = distributions.Normal(pred_action, torch.exp(self.logstd)) 
+
+        dist = distributions.multivariate_normal.MultivariateNormal(pred_action, torch.diag(torch.exp(self.logstd)) ) 
         
         # pred_action = dist.sample()
         # pred_policy = self.get_action(observations)    
