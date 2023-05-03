@@ -200,7 +200,8 @@ class PixelACAgent:
 
         # Part(c)
         target_output = self.critic_target(enc_next_obs,next_action) # All crictic outputs in a list
-        y_target = reward + discount* min(random.sample(target_output,2))
+        
+        y_target = reward + discount* torch.minimum(*random.sample(target_output,2))
 
         # Part(d)
         output = self.critic(enc_obs, action)  
