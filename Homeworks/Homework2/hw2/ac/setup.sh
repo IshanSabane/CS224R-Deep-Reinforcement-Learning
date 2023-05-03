@@ -17,7 +17,7 @@ sudo apt-get install libegl1-mesa
 sudo apt-get install libgl1-mesa-glx
 sudo apt install libopengl0
 conda config --set channel_priority flexible 
-cd /home/ubuntu/hw2/ac
+cd /home/ubuntu/CS224R-Deep-Reinforcement-Learning-/Homeworks/Homework2/hw2/ac
 mamba env create --file=conda_env.yml
 conda init
 source /home/ubuntu/.bashrc
@@ -25,4 +25,4 @@ conda activate PixelAC
 git clone https://github.com/rlworkgroup/metaworld.git
 cd metaworld
 pip install -e .
-cd /home/ubuntu/hw2
+cd /home/ubuntu/CS224R-Deep-Reinforcement-Learning-/Homeworks/Homework2/hw2
