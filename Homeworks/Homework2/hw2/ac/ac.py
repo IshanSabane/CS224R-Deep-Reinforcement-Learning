@@ -192,8 +192,39 @@ class PixelACAgent:
             batch, self.device)
 
         ### YOUR CODE HERE ###
-        
+        # Part(a)
+        enc_obs = self.encoder(self.aug(obs))
+        enc_next_obs = self.encoder(self.aug(next_obs))
 
+        # Part(b)
+        next_action = self.actor(enc_obs).sample()
+
+        # Part(c)
+        target_output = self.critic_target(enc_next_obs,next_action) # All crictic outputs in a list
+        y_target = reward + discount* min(random.sample(target_output,2))
+
+        # Part(d)
+        output = self.critic(enc_obs, action)  
+        loss = sum([(x-y_target.detach())**2 for x in output])
+
+        # Part(e)
+        loss.backward()
+        self.encoder_opt.step()
+        self.critic_opt.step()
+
+        # Part(f)
+        for i in range(len(self.critic.critics)):
+            utils.soft_update_params(self.critic.critics[i], self.critic_target.critics[i], self.critic_target_tau)
+
+        # Final Part 
+
+        sampled_action = self.actor(enc_obs.detach()).sample()
+        
+        actor_targets = self.critic(enc_obs.detach(), sampled_action)
+        actor_loss = -(1/len(actor_targets))* sum(actor_targets)
+
+        actor_loss.backward()
+        self.actor_opt.step()
 
         #####################
         return metrics
@@ -234,18 +265,15 @@ class PixelACAgent:
 
         # Pass it to the encoder to reduce its dimension space
         f_theta = self.encoder(ob_aug)
+        
+        # Actor output: A distribution of the action space 
+        actor_out = self.actor(f_theta) 
 
-        # critic actions
-        critic_actions = self.critic(f_theta, action)
-        target_actions = self.critic_target(f_theta, action)
-
-        # Actor output 
-
-        actor_out = self.actor(f_theta)
-
-
-        loss = 
+        # Take the negative of the log probability of the given action from 
+        # the replay buffer
+        loss = -actor_out.log_prob(action)
 
 
+        metrics['loss'] = loss
         #####################
         return metrics
