@@ -208,7 +208,7 @@ class PixelACAgent:
 
         # Part(d)
         output = self.critic(enc_obs, action)  
-        loss = torch.Tensor(sum([(x - y_target.detach())**2 for x in output]).float())
+        loss = torch.Tensor(sum([(x - y_target.detach())**2 for x in output])).float()
 
         print(loss, loss.shape)       
         # Part(e)
@@ -282,7 +282,7 @@ class PixelACAgent:
         self.encoder_opt.zero_grad()
 
         loss = -actor_out.log_prob(action).sum()
-        print(loss, loss.shape)
+        # print(loss, loss.shape)
 
 
 
