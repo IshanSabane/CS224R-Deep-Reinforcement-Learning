@@ -196,12 +196,12 @@ class PixelACAgent:
         enc_next_obs = self.encoder(self.aug(next_obs.float()))
 
         # Part(b)
-        next_action = self.actor(enc_next_obs).sample()
+        next_action = self.actor(enc_next_obs).sample(clip = self.stddev_clip)
 
         # Part(c)
         target_output = self.critic_target.forward(enc_next_obs,next_action) # All crictic outputs in a list
         
-        y_target = reward + discount* torch.minimum(*random.sample(target_output,2))
+        y_target = reward + discount * torch.minimum(*random.sample(target_output,2))
 
         # print('y_target is ', y_target)
         
@@ -209,10 +209,8 @@ class PixelACAgent:
         # Part(d)
         # output = torch.stack(self.critic(enc_obs, action)  )
         output = self.critic.forward(enc_obs, action)  
-        loss = torch.Tensor(sum([(x - y_target.detach())**2 for x in output])).float()
         
-        print("first Loss")
-        print(output.shape, y_target.detach().expand_as(output).shape)
+        loss= sum( [ F.mse_loss( c - y_target.detach()) for c in output])
         
         # loss = torch.square(output - y_target.detach()).sum()
 
@@ -234,7 +232,7 @@ class PixelACAgent:
         # Final Part 
         self.actor_opt.zero_grad()
 
-        sampled_action = self.actor.forward(enc_obs.detach()).sample()
+        sampled_action = self.actor.forward(enc_obs.detach()).sample(clip = self.stddev_clip)
         
         actor_targets =(self.critic.forward(enc_obs.detach(), sampled_action))
 
