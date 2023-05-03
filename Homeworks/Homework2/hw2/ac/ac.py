@@ -225,7 +225,8 @@ class PixelACAgent:
 
         actor_loss.backward()
         self.actor_opt.step()
-
+        metrics['actor_loss'] = actor_loss
+        metrics['critic_loss']= loss
         #####################
         return metrics
     
@@ -259,7 +260,7 @@ class PixelACAgent:
         batch = next(replay_iter)
         obs, action, _, _, _ = utils.to_torch(batch, self.device)
         ### YOUR CODE HERE ###
-
+        print(obs, action)
         # Augment the observation using the encoder.
         ob_aug = self.aug(obs)
 
