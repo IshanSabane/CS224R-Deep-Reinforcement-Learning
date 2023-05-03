@@ -188,8 +188,7 @@ class PixelACAgent:
         metrics = dict()
 
         batch = next(replay_iter)
-        obs, action, reward, discount, next_obs = utils.to_torch(
-            batch, self.device)
+        obs, action, reward, discount, next_obs = utils.to_torch( batch, self.device)
 
         ### YOUR CODE HERE ###
         # Part(a)
@@ -260,7 +259,7 @@ class PixelACAgent:
         batch = next(replay_iter)
         obs, action, _, _, _ = utils.to_torch(batch, self.device)
         ### YOUR CODE HERE ###
-        print(obs, action)
+        print(obs.shape, action.shape)
         # Augment the observation using the encoder.
         # ob_aug = self.aug(obs)
 
