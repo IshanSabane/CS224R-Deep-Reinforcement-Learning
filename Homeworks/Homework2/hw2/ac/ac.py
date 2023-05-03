@@ -199,19 +199,20 @@ class PixelACAgent:
         next_action = self.actor(enc_next_obs).sample()
 
         # Part(c)
-        target_output = self.critic_target(enc_next_obs,next_action) # All crictic outputs in a list
+        target_output = self.critic_target.forward(enc_next_obs,next_action) # All crictic outputs in a list
         
         y_target = reward + discount* torch.minimum(*random.sample(target_output,2))
 
         # print('y_target is ', y_target)
-
-
+        
+        
         # Part(d)
         # output = torch.stack(self.critic(enc_obs, action)  )
-        output = self.critic(enc_obs, action)  
-        loss = torch.Tensor(sum([(x - y_target.detach())**2 for x in output])).float().mean()
-        # print("first Loss")
-        # print(output.shape, y_target.detach().expand_as(output).shape)
+        output = self.critic.forward(enc_obs, action)  
+        loss = torch.Tensor(sum([(x - y_target.detach())**2 for x in output])).float()
+        
+        print("first Loss")
+        print(output.shape, y_target.detach().expand_as(output).shape)
         
         # loss = torch.square(output - y_target.detach()).sum()
 
@@ -227,17 +228,18 @@ class PixelACAgent:
 
         # Part(f)
         for i in range(len(self.critic.critics)):
-            utils.soft_update_params(self.critic.critics[i], self.critic_target.critics[i], self.critic_target_tau)
+            # utils.soft_update_params(self.critic.critics[i], self.critic_target.critics[i], self.critic_target_tau)
+            utils.soft_update_params(self.critic, self.critic_target, self.critic_target_tau)
 
         # Final Part 
         self.actor_opt.zero_grad()
 
-        sampled_action = self.actor(enc_obs.detach()).sample()
+        sampled_action = self.actor.forward(enc_obs.detach()).sample()
         
-        actor_targets =(self.critic(enc_obs.detach(), sampled_action))
+        actor_targets =(self.critic.forward(enc_obs.detach(), sampled_action))
 
-        actor_loss = torch.Tensor(-(1/len(actor_targets)) * sum(actor_targets)).float().mean()
-        # actor_loss= -torch.mean(torch.stack(actor_targets))
+        # actor_loss = torch.Tensor(-(1/len(actor_targets)) * sum(actor_targets)).float()
+        actor_loss= -torch.mean(torch.stack(actor_targets))
 
 
         actor_loss.backward()
