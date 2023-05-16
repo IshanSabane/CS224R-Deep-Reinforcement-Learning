@@ -210,7 +210,7 @@ class PixelACAgent:
         # output = torch.stack(self.critic(enc_obs, action)  )
         output = self.critic.forward(enc_obs, action)  
         
-        loss= sum( [ F.mse_loss(c,y_target.detach()) for c in output])
+        loss= sum( [ F.mse_loss(c, y_target.detach()) for c in output])
         
         # loss = torch.square(output - y_target.detach()).sum()
 
