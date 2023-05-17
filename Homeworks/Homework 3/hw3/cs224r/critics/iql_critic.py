@@ -119,8 +119,8 @@ class IQLCritic(BaseCritic):
         print(vout.shape)
         
         value_loss = self.expectile_loss(qout - vout).mean()
-
-        # print('value loss')
+        print('HERE')
+        print(value_loss)
         print(value_loss.shape)
         # YOUR CODE HERE ###
 
@@ -163,16 +163,15 @@ class IQLCritic(BaseCritic):
         print(vout.shape)
  
         target = reward_n + self.gamma*torch.mul(1-terminal_n, vout)
-        
     
-        
         loss = self.mse_loss(target, qvalue)
+        print('TARGET')
+        print(target.shape)
         
-        
-        # print('Q-net Loss')
-        # print(loss)
+        print('Q-net Loss')
+        print(loss.shape)
 
-        exit()
+        # exit()
         # YOUR CODE HERE ###
         self.optimizer.zero_grad()
         loss.backward()
