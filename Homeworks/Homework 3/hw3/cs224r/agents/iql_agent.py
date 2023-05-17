@@ -137,7 +137,7 @@ class IQLAgent(DQNAgent):
             # print('actor loss is')
             # print(actor_loss)
             ### YOUR CODE HERE ###
-            exit()
+            # exit()
             
             if self.num_param_updates % self.target_update_freq == 0:
                 self.exploitation_critic.update_target_network()
