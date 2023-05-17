@@ -172,7 +172,7 @@ class IQLCritic(BaseCritic):
         # print('Q-net Loss')
         # print(loss)
 
-
+        exit()
         # YOUR CODE HERE ###
         self.optimizer.zero_grad()
         loss.backward()
