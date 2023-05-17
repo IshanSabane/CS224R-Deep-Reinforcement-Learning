@@ -104,8 +104,8 @@ class IQLCritic(BaseCritic):
         vout = self.v_net(ob_no)
         value_loss = self.expectile_loss(vout - qout).mean()
 
-        print('value loss')
-        print(value_loss)
+        # print('value loss')
+        # print(value_loss)
         # YOUR CODE HERE ###
 
         self.v_optimizer.zero_grad()
@@ -139,8 +139,8 @@ class IQLCritic(BaseCritic):
                               ac_na.type(torch.int64).unsqueeze(1))
         vout = self.v_net(next_ob_no)
         loss = ((reward_n + (1-terminal_n)*self.gamma*vout - qvalue)**2).mean()
-        print('Q-net Loss')
-        print(loss)
+        # print('Q-net Loss')
+        # print(loss)
 
 
         # YOUR CODE HERE ###

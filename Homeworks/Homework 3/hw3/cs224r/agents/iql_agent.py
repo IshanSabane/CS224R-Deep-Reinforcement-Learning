@@ -132,10 +132,10 @@ class IQLAgent(DQNAgent):
             ### YOUR CODE HERE ###
             advantage = self.estimate_advantage(ob_no, ac_na, re_n, next_ob_no, terminal_n)
             actor_loss = self.awac_actor.update(ob_no, ac_na, advantage)
-            print('advantage')
-            print(advantage)
-            print('actor loss is')
-            print(actor_loss)
+            # print('advantage')
+            # print(advantage)
+            # print('actor loss is')
+            # print(actor_loss)
             ### YOUR CODE HERE ###
             
             
