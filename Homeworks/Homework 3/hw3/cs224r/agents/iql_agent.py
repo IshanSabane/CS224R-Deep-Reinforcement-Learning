@@ -121,7 +121,7 @@ class IQLAgent(DQNAgent):
             # TODO 2): Calculate the awac actor loss (call update on self.awac_actor)
             
             ### YOUR CODE HERE ###
-            advantage = self.estimate_advantage(self, ob_no, ac_na, re_n, next_ob_no, terminal_n)
+            advantage = self.estimate_advantage(ob_no, ac_na, re_n, next_ob_no, terminal_n)
             actor_loss = self.awac_actor.update(ob_no, ac_na, advantage)
             ### YOUR CODE HERE ###
             
