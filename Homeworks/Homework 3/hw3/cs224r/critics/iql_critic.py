@@ -46,7 +46,7 @@ class IQLCritic(BaseCritic):
         # HINT: see Q_net definition above and optimizer below
         # HINT: Define using same hparams as Q_net, but adjust output dimensions
         ### YOUR CODE HERE ###
-        self.v_net = None
+        self.v_net = network_initializer(self.ob_dim, 1)
         ### YOUR CODE HERE ###
 
         self.v_optimizer = self.optimizer_spec.constructor(
@@ -66,10 +66,14 @@ class IQLCritic(BaseCritic):
         # in the problem statement.
         # HINT: You can return a tensor with same dimensionality as diff and 
         # aggregate it later
-        ### YOUR CODE HERE ###
-        pass
-        ### YOUR CODE HERE ###
+        # YOUR CODE HERE #
+        if diff < 0:
+            exptl_loss = (1-self.iql_expectile)*(diff**2)
+        else:
+            exptl_loss = self.iql_expectile*(diff**2)
 
+        return exptl_loss
+        # YOUR CODE HERE #
 
     def update_v(self, ob_no, ac_na):
         """
@@ -82,16 +86,16 @@ class IQLCritic(BaseCritic):
         # HINT: use target q network to train V
         # HINT: Use self.expectile_loss as defined above, 
         # passing in the difference between the computed targets and predictions
-        ### YOUR CODE HERE ###
-        value_loss = None
-        ### YOUR CODE HERE ###
-        
+        # YOUR CODE HERE ###
+        qout = torch.gather(self.q_net_target(ob_no), 1, ac_na.type(torch.int64).unsqueeze(1))  # Outputs the Q value for all the actions
+        vout = self.v_net(ob_no)
+        value_loss = self.expectile_loss(vout - qout)
+        # YOUR CODE HERE ###
 
         self.v_optimizer.zero_grad()
         value_loss.backward()
         utils.clip_grad_value_(self.v_net.parameters(), self.grad_norm_clipping)
-        self.v_optimizer.step()
-        
+        self.v_optimizer.step()       
         self.v_learning_rate_scheduler.step()
 
         return {'Training V Loss': ptu.to_numpy(value_loss)}
@@ -107,19 +111,25 @@ class IQLCritic(BaseCritic):
         next_ob_no = ptu.from_numpy(next_ob_no)
         reward_n = ptu.from_numpy(reward_n)
         terminal_n = ptu.from_numpy(terminal_n)
-        
-        
         # TODO: Compute loss for updating Q_net parameters
         # HINT: Note that if the next state is terminal, 
         # its target reward value needs to be adjusted.
-        ### YOUR CODE HERE ###
-        loss = None
-        ### YOUR CODE HERE ###
+        # YOUR CODE HERE ###
+        qvalue = torch.gather(self.q_net(ob_no), 1,
+                              ac_na.type(torch.int64).unsqueeze(1))
+        vout = self.v_net(next_ob_no)
+        if ob_no == terminal_n:
+            loss = (reward_n - qvalue)**2
+        else:
+            loss = (reward_n + self.gamma*vout - qvalue)**2
+        # if next_ob_no == self.
+
+        # YOUR CODE HERE ###
         self.optimizer.zero_grad()
         loss.backward()
-        utils.clip_grad_value_(self.q_net.parameters(), self.grad_norm_clipping)
+        utils.clip_grad_value_(self.q_net.parameters(),
+                               self.grad_norm_clipping)
         self.optimizer.step()
-        
         self.learning_rate_scheduler.step()
 
         return {'Training Q Loss': ptu.to_numpy(loss)}
