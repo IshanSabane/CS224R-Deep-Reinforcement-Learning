@@ -67,16 +67,20 @@ class IQLCritic(BaseCritic):
         # HINT: You can return a tensor with same dimensionality as diff and 
         # aggregate it later
         # YOUR CODE HERE #
-        # print('DIFF')
-        # print(diff)
+        print('DIFF')
+        print(diff)
+        print(diff.shape)
 
         loss = torch.abs((self.iql_expectile - (diff <= 0).int() ))*(diff**2)
-        # print('expectile loss')
-        # print(loss)
+    
+        print('expectile loss')
+        print(loss)
+        print(loss.shape)
         # sign = torch.sign(diff)
 
         # exptl_loss = torch.relu(-diff)
         
+    
 
         # exptl_loss = torch.relu(-diff) - torch.mul(sign,torch.square(diff))
 
@@ -100,8 +104,20 @@ class IQLCritic(BaseCritic):
         # HINT: Use self.expectile_loss as defined above, 
         # passing in the difference between the computed targets and predictions
         # YOUR CODE HERE ###
+        print('action')
+        print(ac_na, ac_na.shape)
+        print(ac_na.type(torch.int64).unsqueeze(1))
         qout = torch.gather(self.q_net_target(ob_no), 1, ac_na.type(torch.int64).unsqueeze(1))  # Outputs the Q value for all the actions
+        
+        print('qout')
+        print(qout, qout.shape)
+        
+        
         vout = self.v_net(ob_no)
+        
+        print('vout',vout)
+        print(vout.shape)
+        
         value_loss = self.expectile_loss(vout - qout).mean()
 
         # print('value loss')
@@ -137,8 +153,21 @@ class IQLCritic(BaseCritic):
 
         qvalue = torch.gather(self.q_net(ob_no), 1,
                               ac_na.type(torch.int64).unsqueeze(1))
+        
+        print('qvalue')
+        print(qvalue, qvalue.shape)
+
         vout = self.v_net(next_ob_no)
+
+        print('vout')
+        print(vout,vout.shape)
+ 
         target= reward_n + (1-terminal_n)*self.gamma*vout
+        
+        print('target')
+        print(target,target.shape)
+        
+        
         loss = self.mse_loss(target, qvalue)
         
         
