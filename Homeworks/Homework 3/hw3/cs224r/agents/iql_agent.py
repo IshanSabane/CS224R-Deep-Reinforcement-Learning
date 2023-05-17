@@ -76,15 +76,15 @@ class IQLAgent(DQNAgent):
         
         ### YOUR CODE HERE ###
         
-        qvalue = self.get_qvals(self.exploitation_critic, ob_no, ac_na, use_v=False)
-        vout = self.exploitation_critic.v_net(ob_no)
+        qvalue = self.get_qvals(self.exploitation_critic, ob_no, ac_na, use_v=False).squeeze(1)
+        vout = self.exploitation_critic.v_net(ob_no).squeeze(1)
         advantage = qvalue - vout
         # print('qvalue')
         # print(qvalue)
         # print('vout')
         # print(vout)
         print('the advantage')
-        print(advantage.shape)
+        print(advantage.shape, qvalue.shape, vout.shape)
 
 
         return advantage
