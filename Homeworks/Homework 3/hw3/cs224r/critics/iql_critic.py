@@ -162,7 +162,7 @@ class IQLCritic(BaseCritic):
         print('vout')
         print(vout.shape)
  
-        target= reward_n.unsqueeze(1) + (1-terminal_n)*self.gamma*vout
+        target= reward_n.unsqueeze(1) + self.gamma*torch.mul(1-terminal_n,vout)
         
 
 
