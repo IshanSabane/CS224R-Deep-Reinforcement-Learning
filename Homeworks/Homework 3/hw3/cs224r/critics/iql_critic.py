@@ -67,12 +67,23 @@ class IQLCritic(BaseCritic):
         # HINT: You can return a tensor with same dimensionality as diff and 
         # aggregate it later
         # YOUR CODE HERE #
-        if diff < 0:
-            exptl_loss = (1-self.iql_expectile)*(diff**2)
-        else:
-            exptl_loss = self.iql_expectile*(diff**2)
 
-        return exptl_loss
+
+        loss = (self.iql_expectile - (diff <= 0).float() )*(diff**2)
+
+        # sign = torch.sign(diff)
+
+        # exptl_loss = torch.relu(-diff)
+
+
+        # exptl_loss = torch.relu(-diff) - torch.mul(sign,torch.square(diff))
+
+        # if diff < 0:
+        #     exptl_loss = (1-self.iql_expectile)*(diff**2)
+        # else:
+        #     exptl_loss = self.iql_expectile*(diff**2)
+
+        # return exptl_loss
         # YOUR CODE HERE #
 
     def update_v(self, ob_no, ac_na):
