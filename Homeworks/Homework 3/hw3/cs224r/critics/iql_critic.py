@@ -109,19 +109,19 @@ class IQLCritic(BaseCritic):
         # print(ac_na.type(torch.int64).unsqueeze(1))
         qout = torch.gather(self.q_net_target(ob_no), 1, ac_na.type(torch.int64).unsqueeze(1)).squeeze(1)  # Outputs the Q value for all the actions
         
-        print('qout')
-        print(qout.shape)
+        # print('qout')
+        # print(qout.shape)
         
         
         vout = self.v_net(ob_no).squeeze(1)
         
-        print('vout')
-        print(vout.shape)
+        # print('vout')
+        # print(vout.shape)
         
         value_loss = self.expectile_loss(qout - vout).mean()
-        print('HERE')
-        print(value_loss)
-        print(value_loss.shape)
+        # print('HERE')
+        # print(value_loss)
+        # print(value_loss.shape)
         # YOUR CODE HERE ###
 
         self.v_optimizer.zero_grad()
@@ -154,22 +154,22 @@ class IQLCritic(BaseCritic):
         qvalue = torch.gather(self.q_net(ob_no), 1,
                               ac_na.type(torch.int64).unsqueeze(1)).squeeze(1)
         
-        print('qvalue')
-        print(qvalue.shape)
+        # print('qvalue')
+        # print(qvalue.shape)
 
         vout = self.v_net(next_ob_no).squeeze(1)
 
-        print('vout')
-        print(vout.shape)
+        # print('vout')
+        # print(vout.shape)
  
         target = reward_n + self.gamma*torch.mul(1-terminal_n, vout)
     
         loss = self.mse_loss(target, qvalue)
-        print('TARGET')
-        print(target.shape)
+        # print('TARGET')
+        # print(target.shape)
         
-        print('Q-net Loss')
-        print(loss.shape)
+        # print('Q-net Loss')
+        # print(loss.shape)
 
         # exit()
         # YOUR CODE HERE ###
