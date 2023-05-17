@@ -76,7 +76,7 @@ class IQLAgent(DQNAgent):
         
         ### YOUR CODE HERE ###
         
-        qvalue = self.get_qvals(self.exploration_critic, ob_no, ac_na, use_v=False)
+        qvalue = self.get_qvals(self.exploitation_critic, ob_no, ac_na, use_v=False)
         vout = self.exploitation_critic.v_net(ob_no)
         advantage = qvalue - vout
         # print('qvalue')
