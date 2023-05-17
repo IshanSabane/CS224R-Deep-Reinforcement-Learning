@@ -100,7 +100,7 @@ class IQLCritic(BaseCritic):
         # YOUR CODE HERE ###
         qout = torch.gather(self.q_net_target(ob_no), 1, ac_na.type(torch.int64).unsqueeze(1))  # Outputs the Q value for all the actions
         vout = self.v_net(ob_no)
-        value_loss = self.expectile_loss(vout - qout)
+        value_loss = self.expectile_loss(vout - qout).sum()
         # YOUR CODE HERE ###
 
         self.v_optimizer.zero_grad()
