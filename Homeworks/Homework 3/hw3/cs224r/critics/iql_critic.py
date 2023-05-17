@@ -67,12 +67,12 @@ class IQLCritic(BaseCritic):
         # HINT: You can return a tensor with same dimensionality as diff and 
         # aggregate it later
         # YOUR CODE HERE #
-        print('DIFF')
-        print(diff)
+        # print('DIFF')
+        # print(diff)
 
         loss = (self.iql_expectile - (diff <= 0).float() )*(diff**2)
-        print('expectile loss')
-        print(loss)
+        # print('expectile loss')
+        # print(loss)
         # sign = torch.sign(diff)
 
         # exptl_loss = torch.relu(-diff)
@@ -104,8 +104,8 @@ class IQLCritic(BaseCritic):
         vout = self.v_net(ob_no)
         value_loss = self.expectile_loss(vout - qout).sum()
 
-        print('value loss')
-        print(value_loss)
+        # print('value loss')
+        # print(value_loss)
         # YOUR CODE HERE ###
 
         self.v_optimizer.zero_grad()
@@ -131,17 +131,17 @@ class IQLCritic(BaseCritic):
         # HINT: Note that if the next state is terminal, 
         # its target reward value needs to be adjusted.
         # YOUR CODE HERE ###
-        print('obs, action, next obs,reward,terminal')
-        print(ob_no,ac_na,next_ob_no,reward_n,terminal_n)
+        # print('obs, action, next obs,reward,terminal')
+        # print(ob_no,ac_na,next_ob_no,reward_n,terminal_n)
 
 
         qvalue = torch.gather(self.q_net(ob_no), 1,
                               ac_na.type(torch.int64).unsqueeze(1))
         vout = self.v_net(next_ob_no)
-        if terminal_n:
-            loss = (reward_n - qvalue)**2
-        else:
-            loss = (reward_n + self.gamma*vout - qvalue)**2
+        # if terminal_n:
+        #     loss = (reward_n - qvalue)**2
+        # else:
+        loss = ((reward_n + (1-terminal_n)*self.gamma*vout - qvalue)**2).sum()
         # if next_ob_no == self.
 
         # YOUR CODE HERE ###
