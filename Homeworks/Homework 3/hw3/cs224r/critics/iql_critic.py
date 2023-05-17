@@ -70,7 +70,7 @@ class IQLCritic(BaseCritic):
         # print('DIFF')
         # print(diff)
 
-        loss = (self.iql_expectile - (diff <= 0).float() )*(diff**2)
+        loss = torch.abs((self.iql_expectile - (diff <= 0).float() ))*(diff**2)
         # print('expectile loss')
         # print(loss)
         # sign = torch.sign(diff)
