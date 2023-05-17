@@ -68,13 +68,13 @@ class IQLCritic(BaseCritic):
         # aggregate it later
         # YOUR CODE HERE #
         print('DIFF')
-        print(diff)
+        # print(diff)
         print(diff.shape)
 
         loss = torch.abs((self.iql_expectile - (diff <= 0).int() ))*(diff**2)
     
         print('expectile loss')
-        print(loss)
+        # print(loss)
         print(loss.shape)
         # sign = torch.sign(diff)
 
@@ -105,23 +105,23 @@ class IQLCritic(BaseCritic):
         # passing in the difference between the computed targets and predictions
         # YOUR CODE HERE ###
         print('action')
-        print(ac_na, ac_na.shape)
+        print(ac_na.shape)
         print(ac_na.type(torch.int64).unsqueeze(1))
         qout = torch.gather(self.q_net_target(ob_no), 1, ac_na.type(torch.int64).unsqueeze(1))  # Outputs the Q value for all the actions
         
         print('qout')
-        print(qout, qout.shape)
+        print(qout.shape)
         
         
         vout = self.v_net(ob_no)
         
-        print('vout',vout)
+        print('vout')
         print(vout.shape)
         
-        value_loss = self.expectile_loss(vout - qout).mean()
+        value_loss = self.expectile_loss(qout - vout).mean()
 
         # print('value loss')
-        # print(value_loss)
+        print(value_loss.shape)
         # YOUR CODE HERE ###
 
         self.v_optimizer.zero_grad()
@@ -155,20 +155,22 @@ class IQLCritic(BaseCritic):
                               ac_na.type(torch.int64).unsqueeze(1))
         
         print('qvalue')
-        print(qvalue, qvalue.shape)
+        print(qvalue.shape)
 
         vout = self.v_net(next_ob_no)
 
         print('vout')
-        print(vout,vout.shape)
+        print(vout.shape)
  
         target= reward_n + (1-terminal_n)*self.gamma*vout
         
+        print('reward')
+        print(reward_n.shape)
         print('target')
-        print(target,target.shape)
+        print(target.shape)
         
         
-        loss = self.mse_loss(target, qvalue)
+        loss = self.mse_losqqs(target, qvalue)
         
         
         # print('Q-net Loss')

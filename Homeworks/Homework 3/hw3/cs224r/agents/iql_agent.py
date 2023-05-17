@@ -83,8 +83,8 @@ class IQLAgent(DQNAgent):
         # print(qvalue)
         # print('vout')
         # print(vout)
-        # print('the advantage')
-        # print(advantage)
+        print('the advantage')
+        print(advantage.shape)
 
 
         return advantage
