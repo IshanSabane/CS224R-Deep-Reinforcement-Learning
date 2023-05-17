@@ -82,7 +82,7 @@ class IQLCritic(BaseCritic):
         #     exptl_loss = (1-self.iql_expectile)*(diff**2)
         # else:
         #     exptl_loss = self.iql_expectile*(diff**2)
-
+        return loss
         # return exptl_loss
         # YOUR CODE HERE #
 
