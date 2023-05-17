@@ -162,15 +162,17 @@ class IQLCritic(BaseCritic):
         print('vout')
         print(vout.shape)
  
-        target= reward_n + (1-terminal_n)*self.gamma*vout
+        target= reward_n.unsqueeze(1) + (1-terminal_n)*self.gamma*vout
         
+
+
         print('reward')
         print(reward_n.shape)
         print('target')
         print(target.shape)
         
         
-        loss = self.mse_losqqs(target, qvalue)
+        loss = self.mse_loss(target, qvalue)
         
         
         # print('Q-net Loss')
