@@ -73,9 +73,9 @@ class IQLCritic(BaseCritic):
 
         loss = torch.abs((self.iql_expectile - (diff <= 0).int() ))*(diff**2)
     
-      
-        # print(loss)
-     
+        print('Lossss')
+        print(loss)
+        print(loss.shape)
         # sign = torch.sign(diff)
 
         # exptl_loss = torch.relu(-diff)
@@ -113,7 +113,7 @@ class IQLCritic(BaseCritic):
         print(qout.shape)
         
         
-        vout = self.v_net(ob_no)
+        vout = self.v_net(ob_no).squeeze(1)
         
         print('vout')
         print(vout.shape)
