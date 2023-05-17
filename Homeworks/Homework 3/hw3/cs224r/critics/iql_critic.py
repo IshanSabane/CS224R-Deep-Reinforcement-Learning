@@ -76,7 +76,7 @@ class IQLCritic(BaseCritic):
         # sign = torch.sign(diff)
 
         # exptl_loss = torch.relu(-diff)
-
+        
 
         # exptl_loss = torch.relu(-diff) - torch.mul(sign,torch.square(diff))
 
@@ -102,10 +102,10 @@ class IQLCritic(BaseCritic):
         # YOUR CODE HERE ###
         qout = torch.gather(self.q_net_target(ob_no), 1, ac_na.type(torch.int64).unsqueeze(1))  # Outputs the Q value for all the actions
         vout = self.v_net(ob_no)
-        value_loss = self.expectile_loss(vout - qout).sum()
+        value_loss = self.expectile_loss(vout - qout).mean()
 
-        # print('value loss')
-        # print(value_loss)
+        print('value loss')
+        print(value_loss)
         # YOUR CODE HERE ###
 
         self.v_optimizer.zero_grad()
@@ -138,8 +138,9 @@ class IQLCritic(BaseCritic):
         qvalue = torch.gather(self.q_net(ob_no), 1,
                               ac_na.type(torch.int64).unsqueeze(1))
         vout = self.v_net(next_ob_no)
-        loss = ((reward_n + (1-terminal_n)*self.gamma*vout - qvalue)**2).sum()
-        
+        loss = ((reward_n + (1-terminal_n)*self.gamma*vout - qvalue)**2).mean()
+        print('Q-net Loss')
+        print(loss)
 
 
         # YOUR CODE HERE ###
