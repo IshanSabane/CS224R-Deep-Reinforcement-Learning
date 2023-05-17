@@ -75,9 +75,18 @@ class IQLAgent(DQNAgent):
         # HINT: Access critic using self.exploitation_critic (critic trained in the offline setting)
         
         ### YOUR CODE HERE ###
-        qvalue = self.get_qvals(self.critic,ob_no,ac_na, use_v=False)
+        
+        qvalue = self.get_qvals(self.exploration_critic, ob_no, ac_na, use_v=False)
         vout = self.exploitation_critic.v_net(ob_no)
         advantage = qvalue - vout
+        print('qvalue')
+        print(qvalue)
+        print('vout')
+        print(vout)
+        print('the advantage')
+        print(advantage)
+
+
         return advantage
         ### YOUR CODE HERE ###
         

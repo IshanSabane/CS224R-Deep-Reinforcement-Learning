@@ -138,11 +138,9 @@ class IQLCritic(BaseCritic):
         qvalue = torch.gather(self.q_net(ob_no), 1,
                               ac_na.type(torch.int64).unsqueeze(1))
         vout = self.v_net(next_ob_no)
-        # if terminal_n:
-        #     loss = (reward_n - qvalue)**2
-        # else:
         loss = ((reward_n + (1-terminal_n)*self.gamma*vout - qvalue)**2).sum()
-        # if next_ob_no == self.
+        
+
 
         # YOUR CODE HERE ###
         self.optimizer.zero_grad()
