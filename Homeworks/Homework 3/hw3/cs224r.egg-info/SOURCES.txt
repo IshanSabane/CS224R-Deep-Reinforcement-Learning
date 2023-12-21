@@ -1,6 +1,0 @@
-README.md
-setup.py
-cs224r.egg-info/PKG-INFO
-cs224r.egg-info/SOURCES.txt
-cs224r.egg-info/dependency_links.txt
-cs224r.egg-info/top_level.txt

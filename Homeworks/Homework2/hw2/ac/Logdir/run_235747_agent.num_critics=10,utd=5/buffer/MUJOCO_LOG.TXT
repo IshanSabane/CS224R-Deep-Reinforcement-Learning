@@ -1,3 +1,0 @@
-Sun Mar 26 15:49:08 2023
-ERROR: Shadow framebuffer is not complete, error 0x8cd7
-
