@@ -61,8 +61,7 @@ LD_PRELOAD=/usr/lib/x86_64-linux-gnu/libGLEW.so python3 train.py use_discrim=Tru
 ```
 
 <div> 
-<img src = './CS224R__Poster.png'>
-</img>
+<img src = './CS224R__Poster.png'></img>
 </div> 
 
 
