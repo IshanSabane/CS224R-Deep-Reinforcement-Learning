@@ -60,7 +60,10 @@ The list of environment names corresponding are available in train.py in single-
 LD_PRELOAD=/usr/lib/x86_64-linux-gnu/libGLEW.so python3 train.py use_discrim=True rl_pretraining=True q_weights=True online_steps=100000 env_name=sawyer_window_open
 ```
 
-[Project Poster](CS224R__Poster.pdf)
+<div> 
+<img src = './CS224R__Poster.png'>
+</img>
+</div> 
 
 
 # Acknowledgements
